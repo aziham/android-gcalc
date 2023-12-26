@@ -7,3 +7,22 @@
 html {
 	font-size: 62.5%; /* 1rem = 10px for easier caluculations */
 }
+
+.phone-frame {
+	position: relative;
+	margin: 7rem auto;
+	width: 43rem;
+	height: 80rem;
+	background-color: #11151A;
+	border-radius: 3.5rem;
+}
+
+.phone-frame .calculator {
+	background-color: white;
+	position: absolute;
+	top: 2.5rem;
+	bottom: 2rem;
+	right: 1rem;
+	left: 1rem;
+	border-radius: 1.75rem;
+}
