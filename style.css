@@ -18,11 +18,18 @@ html {
 }
 
 .phone-frame .calculator {
-	background-color: white;
+	background-color: #1F1F1F;
 	position: absolute;
 	top: 2.5rem;
 	bottom: 2rem;
 	right: 1rem;
 	left: 1rem;
 	border-radius: 1.75rem;
+	overflow: hidden;
+}
+
+.phone-frame .calculator .screen {
+	background-color: #33383F;
+	height: 25rem;
+	border-radius: 0 0 3rem 3rem;
 }
