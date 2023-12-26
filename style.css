@@ -12,13 +12,13 @@ html {
 	position: relative;
 	margin: 7rem auto;
 	width: 43rem;
-	height: 80rem;
-	background-color: #11151A;
+	height: 76rem;
+	background-color: #111519;
 	border-radius: 3.5rem;
 }
 
 .phone-frame .calculator {
-	background-color: #1F1F1F;
+	background-color: #262626;
 	position: absolute;
 	top: 2.5rem;
 	bottom: 2rem;
@@ -29,7 +29,45 @@ html {
 }
 
 .phone-frame .calculator .screen {
-	background-color: #33383F;
-	height: 25rem;
+	background-color: #42494c;
+	height: 23rem;
 	border-radius: 0 0 3rem 3rem;
+}
+
+.phone-frame .calculator .controls {
+	display: flex;
+	gap: 1rem;
+	margin: 3rem 1.3rem 0;
+	flex-wrap: wrap;
+}
+
+.phone-frame .calculator .controls button {
+	flex: 0 0 23%; /* The same as using width: 23% */
+	font-size: 3rem;
+	padding: 2.3rem;
+	border-radius: 50%;
+	border: none;
+}
+
+.phone-frame .calculator .controls button.equals {
+	flex: 0 0 48.5%;
+	border-radius: 2.5rem;
+	background-color: #D3E3FD;
+}
+
+.phone-frame .calculator .controls .operator {
+	background-color: #73bff2;
+	color: #001D35;
+}
+
+.phone-frame .calculator .controls .digit,
+.phone-frame .calculator .controls .dicimal-point {
+	background-color: #303336;
+	color: #E3E3E3;
+}
+
+.phone-frame .calculator .controls .clear,
+.phone-frame .calculator .controls .delete {
+	background-color: #C4EED0;
+	color: #072711;
 }
