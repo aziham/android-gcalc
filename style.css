@@ -11,40 +11,96 @@ html {
 .phone-frame {
 	position: relative;
 	margin: 7rem auto;
-	width: 43rem;
+	width: 40rem;
 	height: 76rem;
-	background-color: #111519;
+	background-color: #000000;
 	border-radius: 3.5rem;
+}
+
+.phone-frame .notch {
+	position: absolute;
+	background-color: inherit;
+	width: 21rem;
+	height: 3rem;
+	border-bottom-left-radius: 2.4rem;
+	border-bottom-right-radius: 2.4rem;
+	top: 1rem;
+	left: 50%;
+	transform: translate(-50%);
+	z-index: 1;
+}
+
+.phone-frame .notch::before {
+	position: absolute;
+	content: '';
+	width: 0.8rem;
+	height: 0.8rem;
+	background: radial-gradient(circle at left bottom, rgba(0, 0, 0, 0) 0px, rgba(0, 0, 0, 0) 70%, rgb(0, 0, 0) 70%, rgb(0, 0, 0) 100%);
+	top: 0;
+	left: -0.8rem;
+}
+
+
+.phone-frame .notch::after {
+	position: absolute;
+	content: '';
+	width: 0.8rem;
+	height: 0.8rem;
+	background: radial-gradient(circle at right bottom, rgba(0, 0, 0, 0) 0px, rgba(0, 0, 0, 0) 70%, rgb(0, 0, 0) 70%, rgb(0, 0, 0) 100%);
+	top: 0;
+	right: -0.8rem;
+}
+
+.phone-frame .speaker {
+	position: absolute;
+	left: 50%;
+	transform: translate(-50%);
+	top: 0.9rem;
+	background-color: hsl(210, 5%, 10%);
+	border-radius: 1rem;
+	width: 6rem;
+	height: 0.6rem;
+	
+}
+
+.phone-frame .sensor {
+	position: absolute;
+	left: 73%;
+	top: 0.9rem;
+	background-color: hsl(202, 79%, 25%);
+	border-radius: 100%;
+	width: 0.6rem;
+	height: 0.6rem;
 }
 
 .phone-frame .calculator {
 	background-color: #262626;
 	position: absolute;
-	top: 2.5rem;
-	bottom: 2rem;
+	top: 1rem;
+	bottom: 1rem;
 	right: 1rem;
 	left: 1rem;
-	border-radius: 1.75rem;
+	border-radius: 3.5rem;
 	overflow: hidden;
 }
 
 .phone-frame .calculator .display {
 	background-color: #42494c;
-	height: 23rem;
+	height: 25rem;
 	border-radius: 0 0 3rem 3rem;
 }
 
 .phone-frame .calculator .controls {
 	display: flex;
-	gap: 1rem;
-	margin: 3rem 1.3rem 0;
+	gap: 1.15rem;
+	margin: 5rem 1.3rem 0;
 	flex-wrap: wrap;
 }
 
 .phone-frame .calculator .controls button {
-	flex: 0 0 23%; /* The same as using width: 23% */
+	flex: 0 0 22.5%; /* The same as using width: 22.5% */
 	font-size: 3rem;
-	padding: 2.3rem;
+	padding: 2rem;
 	border-radius: 50%;
 	border: none;
 	position: relative;
@@ -53,7 +109,7 @@ html {
 }
 
 .phone-frame .calculator .controls button.equals {
-	flex: 0 0 48.5%;
+	flex: 0 0 48%;
 	border-radius: 3.5rem;
 	background-color: #D3E3FD;
 }
