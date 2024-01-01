@@ -106,6 +106,7 @@ html {
 	position: relative;
 	overflow: hidden;
 	transition: border-radius 100ms ease, background-color 150ms ease;
+	outline: none;
 }
 
 .phone-frame .calculator .controls button.equals {
