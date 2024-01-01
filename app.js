@@ -18,13 +18,39 @@ const divide = (num1, num2) => num1 / num2;
 const remainder = (num1, num2) => num1 % num2;
 
 
+/* Operate function: Perform a mathematical operation on two numbers based on the given operator */
+const operate = (operator, num1, num2) => {
+	let result;
+
+	switch (operator) {
+		case "+":
+			result = add(num1, num2);
+			break;
+		case "-":
+			result = subtract(num1, num2);
+			break;
+		case "×":
+			result = multiply(num1, num2);
+			break;
+		case "÷":
+			result = divide(num1, num2);
+			break;
+		case "%":
+			result = remainder(num1, num2);
+			break;
+		default:
+			result = "Invalid Operation!";
+			break;
+	}
+
+	return result;
+}
 
 
 
 
 
-
-// Handling buttons animation
+/* Handling buttons animation */
 const handleMouseUp = event => {
 	event.target.classList.remove("btn-radius");
 	setTimeout(() => {
