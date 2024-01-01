@@ -1,15 +1,9 @@
 const btnsContainer = document.querySelector(".controls");
 
+/* Functions for basic math operations */
 
-
-
-
-
-
-
-
-
-
+// Addition function
+const add = (num1, num2) => num1 + num2;
 
 
 
