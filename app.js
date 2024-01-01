@@ -14,7 +14,8 @@ const multiply = (num1, num2) => num1 * num2;
 // Division function
 const divide = (num1, num2) => num1 / num2;
 
-
+// Remainder (Modulo) function
+const remainder = (num1, num2) => num1 % num2;
 
 
 
