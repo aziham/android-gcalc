@@ -11,7 +11,8 @@ const subtract = (num1, num2) => num1 - num2;
 // Multiplication function
 const multiply = (num1, num2) => num1 * num2;
 
-
+// Division function
+const divide = (num1, num2) => num1 / num2;
 
 
 
