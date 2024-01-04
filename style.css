@@ -122,13 +122,23 @@ html {
 }
 
 .phone-frame .calculator .controls .digit,
-.phone-frame .calculator .controls .dicimal-point {
+.phone-frame .calculator .controls .dicimal-point,
+.phone-frame .calculator .controls .delete {
 	background-color: #303336;
 	color: #E3E3E3;
 }
 
-.phone-frame .calculator .controls .clear,
 .phone-frame .calculator .controls .delete {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.phone-frame .calculator .controls .delete svg {
+	pointer-events: none; /* allows the events to pass through to the underlying button */
+}
+
+.phone-frame .calculator .controls .clear {
 	background-color: #C4EED0;
 	color: #072711;
 }
