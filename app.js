@@ -18,7 +18,7 @@ const divide = (num1, num2) => num1 / num2;
 const remainder = (num1, num2) => num1 % num2;
 
 
-/* Operate function: Perform a mathematical operation on two numbers based on the given operator */
+/* Operate function: Performs a mathematical operation on two numbers based on the given operator */
 const operate = (operator, num1, num2) => {
 	let result;
 
