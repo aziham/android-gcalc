@@ -115,7 +115,8 @@ html {
 	background-color: #D3E3FD;
 }
 
-.phone-frame .calculator .controls .operator {
+.phone-frame .calculator .controls .operator,
+.phone-frame .calculator .controls .parenthesis {
 	background-color: #73bff2;
 	color: #001D35;
 }
