@@ -76,7 +76,68 @@ const tokenize = expression => {
 	return infixNotation;
 }
 
+/* ShuntingYardConversion function: Takes an array representing a mathematical expression in infix notation and converts it to postfix notation using the Shunting Yard Algorithm. It uses a stack to manage operators and applies precedence rules to create the postfix expression.
 
+	Parameters:
+	- infixNotation: An array representing the mathematical expression in infix notation.
+
+	Returns:
+	- An array representing the mathematical expression in postfix notation. */
+const shuntingYardConversion = infixNotation => {
+	// Result array for postfix notation
+	const postfixNotation = [];
+	// Stack to manage operators during conversion
+	const operatorsStack = [];
+	// Precedence rules for different operators
+	const operators = [
+		{symbol: "+", precedence: 1},
+		{symbol: "-", precedence: 1},
+		{symbol: "×", precedence: 2},
+		{symbol: "÷", precedence: 2},
+		{symbol: "%", precedence: 2},
+	]
+
+	for (const token of infixNotation) {
+		if (typeof token === "number")
+			postfixNotation.push(token);
+		// If the token is an operator or parenthesis
+		else if (/[\+\-×÷%()]/.test(token)) {
+			// If the operators stack is empty or the operator is open parenthesis
+			if (operatorsStack.length === 0 || token === "(")
+				operatorsStack.push(token);
+
+			else if (token === ")")
+				// Pop operators from the stack and push them to the postfixNotation array until an opening parenthesis is encountered
+				while (true) {
+					const lastOperator = operatorsStack.pop();
+					if (lastOperator === "(")
+						break;
+					postfixNotation.push(lastOperator);
+				}
+
+			else {
+				// Handling precedence rules for operators
+				const lastOperator = operatorsStack[operatorsStack.length - 1];
+				const currentOperatorObj = operators.find(operator => operator.symbol === token);
+				const lastOperatorObj = operators.find(operator => operator.symbol === lastOperator);
+
+				if (lastOperator !== "(" && lastOperatorObj.precedence >= currentOperatorObj.precedence) {
+					postfixNotation.push(operatorsStack.pop());
+					operatorsStack.push(token);
+				}
+				else
+					operatorsStack.push(token);
+			}
+		}
+	}
+
+	// Pop any remaining operators from the stack and push them to the postfix notation array
+	while (operatorsStack.length !== 0)
+		postfixNotation.push(operatorsStack.pop());
+
+	// Return the final postfix notation array
+	return postfixNotation;
+}
 
 /* Handling buttons animation */
 const handleMouseUp = event => {
