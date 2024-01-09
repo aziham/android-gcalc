@@ -139,6 +139,36 @@ const shuntingYardConversion = infixNotation => {
 	return postfixNotation;
 }
 
+/* RpnEvaluation function: Takes an array representing a mathematical expression in postfix notation and evaluates it using the Reverse Polish Notation (RPN) algorithm.
+
+	Parameters:
+	- postfixNotation: An array representing the mathematical expression in postfix notation.
+
+	Returns:
+	- The result of the evaluated mathematical expression. */
+const rpnEvaluation = postfixNotation => {
+	// Operand stack for RPN evaluation
+	const operandsStack = [];
+
+	for (const token of postfixNotation) {
+		// If the token is an operator
+		if (typeof token !== "number") {
+			// Pop the required operands from the stack
+			const secondOperand = operandsStack.pop();
+			const firstOperand = operandsStack.pop();
+			// Apply the operator and push the result back onto the stack
+			operandsStack.push(operate(token,firstOperand,secondOperand));
+			continue;
+		}
+
+		// If the token is an operand, push it onto the stack
+		operandsStack.push(token);
+	}
+
+	// The final result of the RPN evaluation
+	return operandsStack.pop();
+}
+
 /* Handling buttons animation */
 const handleMouseUp = event => {
 	event.target.classList.remove("btn-radius");
