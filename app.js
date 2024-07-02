@@ -1,5 +1,3 @@
-const btnsContainer = document.querySelector(".controls");
-
 /* Functions for basic math operations */
 
 // Addition function
@@ -181,7 +179,16 @@ const rpnEvaluation = postfixNotation => {
     return Math.round(operandsStack.pop() * 100) / 100;
 }
 
-/* Handling buttons animation */
+/* Handling UI Interactions */
+const btnsContainer = document.querySelector(".controls");
+const expressionField = document.querySelector("#expressionField");
+const operators = ["%", "÷", "×", "-", "+"];
+const parentheses = ["(", ")"];
+const openParenthesis = "(";
+const closeParenthesis = ")";
+const decimalPoint = ".";
+let openParenthesisCounter = 0;
+
 const handleMouseUp = event => {
 	event.target.classList.remove("btn-radius");
 	setTimeout(() => {
@@ -194,6 +201,87 @@ const handleMouseDown = event => {
 	btn.classList.add("btn-radius");
 	btn.classList.add("btn-overlay");
 	btn.addEventListener("mouseup", handleMouseUp);
+	addToInputField(btn);
 }
 
 btnsContainer.addEventListener("mousedown", handleMouseDown);
+
+expressionField.addEventListener("blur", event => event.target.focus());
+
+const addToInputField = btn => {
+	if (btn.classList.contains("clear"))
+		handleClearBtnClick(expressionField);
+	else if(btn.classList.contains("delete"))
+		handleDeleteBtnClick(expressionField);
+	else if (btn.classList.contains("digit"))
+		handleDigitBtnClick(btn.textContent, expressionField);
+	else if (btn.classList.contains("operator"))
+		handleOperatorBtnClick(btn.textContent, expressionField);
+	else if (btn.classList.contains("dicimal-point"))
+		handleDicimalBtnClick(decimalPoint, expressionField);
+	else if(btn.classList.contains("parentheses"))
+		handleParenthesesBtnClick(expressionField);
+	else if(btn.classList.contains("equals"))
+		handleEqualsBtnClick(expressionField);
+}
+
+// Helper Functions
+function handleClearBtnClick(expressionField) {
+	expressionField.value = '';
+}
+
+function handleDeleteBtnClick(expressionField) {
+	expressionField.value = expressionField.value.slice(0, -1);
+}
+
+function handleDigitBtnClick(digit, expressionField) {
+	expressionField.value += digit;
+}
+
+function handleOperatorBtnClick(operator, expressionField) {
+	const lastCharacter = expressionField.value.slice(-1);
+
+	if (lastCharacter === decimalPoint)
+		return;
+	else if (expressionField.value === '' || lastCharacter === openParenthesis)
+		return;
+	else if ((operators.includes(lastCharacter) && lastCharacter !== '%') || (lastCharacter === '%' && operator === '%')) {
+		expressionField.value = expressionField.value.slice(0, -1); // Pop
+		expressionField.value += operator; // Push
+	}
+	else
+		expressionField.value += operator;
+}
+
+function handleDicimalBtnClick(dicimalPoint, expressionField) {
+	const tokenizedExp = expressionField.value.split(/[\+\-\÷\×]/);
+	const lastToken = tokenizedExp.pop();
+	const lastCharacter = lastToken.slice(-1);
+
+	if (lastToken.includes(dicimalPoint) || lastCharacter === closeParenthesis)
+		return;
+	else
+		expressionField.value += dicimalPoint;
+}
+
+function handleParenthesesBtnClick(expressionField) {
+	const lastCharacter = expressionField.value.slice(-1);
+	
+	if (expressionField.value === '' || operators.includes(lastCharacter) || lastCharacter === openParenthesis) {
+		expressionField.value += openParenthesis;
+		++openParenthesisCounter;
+	}
+	else if (openParenthesisCounter > 0) {
+		expressionField.value += closeParenthesis;
+		--openParenthesisCounter;
+	}
+}
+
+function handleEqualsBtnClick(expressionField) {
+	const expression = expressionField.value;
+	const infixNotation = tokenize(expression);
+	const postfixNotation = shuntingYardConversion(infixNotation);
+	const result = rpnEvaluation(postfixNotation);
+
+	expressionField.value = result;
+}
