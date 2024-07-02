@@ -14,9 +14,6 @@ const multiply = (num1, num2) => num1 * num2;
 // Division function
 const divide = (num1, num2) => num1 / num2;
 
-// Remainder (Modulo) function
-const remainder = (num1, num2) => num1 % num2;
-
 
 /* Operate function: Performs a mathematical operation on two numbers based on the given operator */
 const operate = (operator, num1, num2) => {
@@ -34,9 +31,6 @@ const operate = (operator, num1, num2) => {
 			break;
 		case "÷":
 			result = divide(num1, num2);
-			break;
-		case "%":
-			result = remainder(num1, num2);
 			break;
 		default:
 			result = "Invalid Operation!";
@@ -90,11 +84,11 @@ const shuntingYardConversion = infixNotation => {
 	const operatorsStack = [];
 	// Precedence rules for different operators
 	const operators = [
-		{symbol: "+", precedence: 1},
-		{symbol: "-", precedence: 1},
-		{symbol: "×", precedence: 2},
-		{symbol: "÷", precedence: 2},
-		{symbol: "%", precedence: 2},
+		{symbol: "+", precedence: 1, associativity: "left"},
+		{symbol: "-", precedence: 1, associativity: "left"},
+		{symbol: "×", precedence: 2, associativity: "left"},
+		{symbol: "÷", precedence: 2, associativity: "left"},
+		{symbol: "%", precedence: 3, associativity: "right"},
 	]
 
 	for (const token of infixNotation) {
@@ -117,19 +111,19 @@ const shuntingYardConversion = infixNotation => {
 
 			else {
 				// Handling precedence rules for operators
-				const lastOperator = operatorsStack[operatorsStack.length - 1];
-				const currentOperatorObj = operators.find(operator => operator.symbol === token);
-				const lastOperatorObj = operators.find(operator => operator.symbol === lastOperator);
-
-				if (lastOperator !== "(" && lastOperatorObj.precedence >= currentOperatorObj.precedence) {
-					postfixNotation.push(operatorsStack.pop());
-					operatorsStack.push(token);
+				const currentOperatorObj = operators.find(op => op.symbol === token);
+        		while (operatorsStack.length > 0) {
+          			const lastOperator = operatorsStack[operatorsStack.length - 1];
+          			const lastOperatorObj = operators.find(op => op.symbol === lastOperator);
+          			if ( lastOperator !== "(" && (lastOperatorObj.precedence > currentOperatorObj.precedence || (lastOperatorObj.precedence === currentOperatorObj.precedence && currentOperatorObj.associativity === "left")))
+            			postfixNotation.push(operatorsStack.pop());
+ 					else
+            			break;
 				}
-				else
-					operatorsStack.push(token);
-			}
+				operatorsStack.push(token);
+        	}
 		}
-	}
+    }
 
 	// Pop any remaining operators from the stack and push them to the postfix notation array
 	while (operatorsStack.length !== 0)
@@ -150,23 +144,41 @@ const rpnEvaluation = postfixNotation => {
 	// Operand stack for RPN evaluation
 	const operandsStack = [];
 
-	for (const token of postfixNotation) {
+	postfixNotation.forEach((token, index) => {
 		// If the token is an operator
 		if (typeof token !== "number") {
 			// Pop the required operands from the stack
 			const secondOperand = operandsStack.pop();
 			const firstOperand = operandsStack.pop();
-			// Apply the operator and push the result back onto the stack
-			operandsStack.push(operate(token,firstOperand,secondOperand));
-			continue;
+			// If the operator is a % sign
+			// https://devblogs.microsoft.com/oldnewthing/20080110-00/?p=23853
+			if (token === "%") {
+				if (firstOperand !== undefined) {
+					// Push the first operand back to the operands stack
+					operandsStack.push(firstOperand);
+					// If the next operator is (× || ÷) we need to change the behavior of the % sign to not use the 1st operand in the calculation
+					const nextToken = postfixNotation[index + 1];
+					if (nextToken === "×" || nextToken === "÷")
+						operandsStack.push(secondOperand / 100);
+					// Calculate the percentage using the 1st and 2nd operands and push back the result to the operands stack, when the next operator is (+ || -)
+					else
+						operandsStack.push(firstOperand * secondOperand / 100);
+				}
+				else
+					operandsStack.push(secondOperand / 100);
+			}
+			// If the operator is (+ || - || × || ÷), apply the operator and push the result back onto the stack
+			else
+				operandsStack.push(operate(token,firstOperand,secondOperand));
 		}
 
 		// If the token is an operand, push it onto the stack
-		operandsStack.push(token);
-	}
+		else
+			operandsStack.push(token);
+	});
 
-	// The final result of the RPN evaluation
-	return operandsStack.pop();
+	// The final result of the RPN evaluation, rounded to avoid floating-point precision issues
+    return Math.round(operandsStack.pop() * 100) / 100;
 }
 
 /* Handling buttons animation */
