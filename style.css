@@ -91,9 +91,26 @@ html {
 }
 
 .phone-frame .calculator .display {
+	display: flex;
 	background-color: #42494c;
 	height: 25rem;
 	border-radius: 0 0 3rem 3rem;
+}
+
+.phone-frame .calculator .display #expressionField {
+	border: none;
+	outline: none;
+	background: none;
+	color: #E3E3E3;
+	font-size: 9rem;
+	padding: 0 1rem;
+	width: 100%;
+	text-align: right;
+	caret-color: #85b2ff;
+}
+
+.phone-frame .calculator .display #expressionField::selection {
+	background-color: #798DAF;
 }
 
 .phone-frame .calculator .controls {
@@ -120,7 +137,7 @@ html {
 }
 
 .phone-frame .calculator .controls .operator,
-.phone-frame .calculator .controls .parenthesis {
+.phone-frame .calculator .controls .parentheses {
 	background-color: #73bff2;
 	color: #001D35;
 }
@@ -148,11 +165,7 @@ html {
 }
 
 /* Buttons animation */
-.phone-frame .calculator .controls button.btn-radius:not(.equals) {
-	border-radius: 35%;
-}
-
-.phone-frame .calculator .controls button.equals.btn-radius {
+.phone-frame .calculator .controls button.btn-radius {
 	border-radius: 2.5rem;
 }
 
